@@ -11,7 +11,7 @@ export const WishlistProvider = ({ children }) => {
   const fetchWishlist = async () => {
     if (!user) return setWishlistItems([]);
     try {
-      const { data } = await axios.get('/api/wishlist');
+      const { data } = await api.get('/api/wishlist');
       setWishlistItems(data.products || []);
     } catch { setWishlistItems([]); }
   };
@@ -21,7 +21,7 @@ export const WishlistProvider = ({ children }) => {
   const addToWishlist = async (productId) => {
     if (!user) return alert('Please login to add to wishlist');
     try {
-      await axios.post('/api/wishlist', { productId });
+      await api.post('/api/wishlist', { productId });
       await fetchWishlist();
     } catch (err) {
       console.error(err);
@@ -30,7 +30,7 @@ export const WishlistProvider = ({ children }) => {
 
   const removeFromWishlist = async (productId) => {
     try {
-      await axios.delete(`/api/wishlist/${productId}`);
+      await api.delete(`/api/wishlist/${productId}`);
       await fetchWishlist();
     } catch (err) {
       console.error(err);
@@ -43,7 +43,7 @@ export const WishlistProvider = ({ children }) => {
 
   const clearWishlist = async () => {
     try {
-      await axios.delete('/api/wishlist');
+      await api.delete('/api/wishlist');
       setWishlistItems([]);
     } catch (err) {
       console.error(err);

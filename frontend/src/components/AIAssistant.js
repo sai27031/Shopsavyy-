@@ -25,7 +25,7 @@ export default function AIAssistant({ productId = null }) {
     setLoading(true);
     try {
       const history = messages.map(m => ({ role: m.role, content: m.content }));
-      const { data } = await axios.post('/api/ai/chat', {
+      const { data } = await api.post('/api/ai/chat', {
         message: userMsg,
         productId,
         conversationHistory: history,

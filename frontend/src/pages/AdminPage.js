@@ -40,13 +40,13 @@ export default function AdminPage() {
     setLoading(true);
     try {
       if (tab === 'products') {
-        const r = await axios.get('/api/products?limit=100');
+        const r = await api.get('/api/products?limit=100');
         setProducts(r.data.products);
       } else if (tab === 'orders') {
-        const r = await axios.get('/api/orders');
+        const r = await api.get('/api/orders');
         setOrders(r.data);
       } else if (tab === 'coupons') {
-        const r = await axios.get('/api/coupons');
+        const r = await api.get('/api/coupons');
         setCoupons(r.data);
       }
     } catch (err) {
@@ -76,7 +76,7 @@ export default function AdminPage() {
   try {
     const formData = new FormData();
     formData.append('image', file);
-    const { data } = await axios.post('/api/upload/single', formData, {
+    const { data } = await api.post('/api/upload/single', formData, {
       headers: { 'Content-Type': 'multipart/form-data' },
     });
     setForm(f => ({ ...f, image: data.url }));
@@ -123,10 +123,10 @@ export default function AdminPage() {
     };
     try {
       if (editProduct) {
-        await axios.put(`/api/products/${editProduct._id}`, payload);
+        await api.put(`/api/products/${editProduct._id}`, payload);
         setMsg('Product updated successfully!');
       } else {
-        await axios.post('/api/products', payload);
+        await api.post('/api/products', payload);
         setMsg('Product added successfully!');
       }
       fetchData();
@@ -139,7 +139,7 @@ export default function AdminPage() {
   const handleDelete = async (id) => {
     if (!window.confirm('Delete this product?')) return;
     try {
-      await axios.delete(`/api/products/${id}`);
+      await api.delete(`/api/products/${id}`);
       fetchData();
     } catch (err) {
       console.error(err);
@@ -148,7 +148,7 @@ export default function AdminPage() {
 
   const updateOrderStatus = async (orderId, status) => {
     try {
-      await axios.put(`/api/orders/${orderId}/status`, { status });
+      await api.put(`/api/orders/${orderId}/status`, { status });
       fetchData();
     } catch (err) {
       console.error(err);
@@ -159,7 +159,7 @@ export default function AdminPage() {
     e.preventDefault();
     setCouponMsg('');
     try {
-      await axios.post('/api/coupons', {
+      await api.post('/api/coupons', {
         ...couponForm,
         discountValue: Number(couponForm.discountValue),
         minOrderValue: Number(couponForm.minOrderValue) || 0,
@@ -181,7 +181,7 @@ export default function AdminPage() {
   const handleDeleteCoupon = async (id) => {
     if (!window.confirm('Delete this coupon?')) return;
     try {
-      await axios.delete(`/api/coupons/${id}`);
+      await api.delete(`/api/coupons/${id}`);
       fetchData();
     } catch (err) {
       console.error(err);
@@ -190,7 +190,7 @@ export default function AdminPage() {
 
   const handleToggleCoupon = async (id) => {
     try {
-      await axios.put(`/api/coupons/${id}/toggle`);
+      await api.put(`/api/coupons/${id}/toggle`);
       fetchData();
     } catch (err) {
       console.error(err);

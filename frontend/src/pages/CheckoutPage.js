@@ -38,7 +38,7 @@ export default function CheckoutPage() {
     setCouponLoading(true);
     setCouponMsg('');
     try {
-      const { data } = await axios.post('/api/coupons/validate', {
+      const { data } = await api.post('/api/coupons/validate', {
         code: couponCode, orderTotal: totalPrice,
       });
       setDiscountAmount(data.discountAmount);
@@ -64,7 +64,7 @@ export default function CheckoutPage() {
   };
 
   const placeOrder = async (paymentResult = null) => {
-    const { data: order } = await axios.post('/api/orders', {
+    const { data: order } = await api.post('/api/orders', {
       items: cartItems.map(i => ({
         product:  i.product,
         name:     i.name,
@@ -82,7 +82,7 @@ export default function CheckoutPage() {
       ...(paymentResult ? { isPaid: true, paidAt: new Date(), paymentResult } : {}),
     });
     if (appliedCoupon) {
-      await axios.post('/api/coupons/apply', { code: appliedCoupon });
+      await api.post('/api/coupons/apply', { code: appliedCoupon });
     }
     await clearCart();
     return order;
@@ -92,7 +92,7 @@ export default function CheckoutPage() {
     setLoading(true);
     setError('');
     try {
-      const { data } = await axios.post('/api/payment/create-order', {
+      const { data } = await api.post('/api/payment/create-order', {
         amount: finalTotal,
       });
 
@@ -116,7 +116,7 @@ export default function CheckoutPage() {
               status:      'completed',
               update_time: new Date().toISOString(),
             });
-            await axios.post('/api/payment/verify', {
+            await api.post('/api/payment/verify', {
               razorpay_order_id:   response.razorpay_order_id,
               razorpay_payment_id: response.razorpay_payment_id,
               razorpay_signature:  response.razorpay_signature,

@@ -20,7 +20,7 @@ export default function ProfilePage() {
   useEffect(() => {
     if (!user) return navigate('/login');
     setForm({ name: user.name, email: user.email, password: '', confirmPassword: '' });
-    axios.get('/api/orders/mine')
+    api.get('/api/orders/mine')
       .then(r => setOrders(r.data))
       .catch(console.error)
       .finally(() => setLoading(false));
@@ -36,7 +36,7 @@ export default function ProfilePage() {
     try {
       const payload = { name: form.name, email: form.email };
       if (form.password) payload.password = form.password;
-      await axios.put('/api/auth/profile', payload);
+      await api.put('/api/auth/profile', payload);
       setMsg('Profile updated successfully!');
       setEditing(false);
     } catch (err) {

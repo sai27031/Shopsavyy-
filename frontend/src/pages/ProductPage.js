@@ -22,7 +22,7 @@ export default function ProductPage() {
 
   useEffect(() => {
   setLoading(true);
-  axios.get(`/api/products/${id}`)
+  api.get(`/api/products/${id}`)
     .then(r => {
       setProduct(r.data);
       if (r.data.sizes?.length) setSelectedSize(r.data.sizes[0]);
@@ -32,7 +32,7 @@ export default function ProductPage() {
     .catch(console.error)
     .finally(() => setLoading(false));
 
-  axios.get(`/api/ai/insights/${id}`)
+  api.get(`/api/ai/insights/${id}`)
     .then(r => setInsights(r.data))
     .catch(() => {});
 }, [id]);
@@ -43,9 +43,9 @@ export default function ProductPage() {
 
   const submitReview = async () => {
     try {
-      await axios.post(`/api/products/${id}/reviews`, review);
+      await api.post(`/api/products/${id}/reviews`, review);
       setReviewMsg('Review submitted successfully!');
-      const r = await axios.get(`/api/products/${id}`);
+      const r = await api.get(`/api/products/${id}`);
       setProduct(r.data);
     } catch (err) {
       setReviewMsg(err.response?.data?.message || 'Error submitting review');

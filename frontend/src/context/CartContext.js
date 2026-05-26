@@ -12,7 +12,7 @@ export const CartProvider = ({ children }) => {
   const fetchCart = async () => {
     if (!user) return setCartItems([]);
     try {
-      const { data } = await axios.get('/api/cart');
+      const { data } = await api.get('/api/cart');
       setCartItems(data.items || []);
     } catch { setCartItems([]); }
   };
@@ -22,7 +22,7 @@ export const CartProvider = ({ children }) => {
   const addToCart = async (product, qty = 1, size = '', color = '') => {
     if (!user) return alert('Please login to add items to cart');
     try {
-      const { data } = await axios.post('/api/cart', {
+      const { data } = await api.post('/api/cart', {
         productId: product._id,
         name:      product.name,
         image:     product.image,
@@ -38,21 +38,21 @@ export const CartProvider = ({ children }) => {
 
   const updateQty = async (itemId, qty) => {
     try {
-      const { data } = await axios.put(`/api/cart/items/${itemId}`, { quantity: qty });
+      const { data } = await api.put(`/api/cart/items/${itemId}`, { quantity: qty });
       setCartItems(data.items || []);
     } catch (err) { console.error(err); }
   };
 
   const removeItem = async (itemId) => {
     try {
-      const { data } = await axios.delete(`/api/cart/items/${itemId}`);
+      const { data } = await api.delete(`/api/cart/items/${itemId}`);
       setCartItems(data.items || []);
     } catch (err) { console.error(err); }
   };
 
   const clearCart = async () => {
     try {
-      await axios.delete('/api/cart');
+      await api.delete('/api/cart');
       setCartItems([]);
     } catch (err) { console.error(err); }
   };

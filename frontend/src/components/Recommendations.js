@@ -9,7 +9,7 @@ export default function Recommendations({ productId }) {
   useEffect(() => {
     if (!productId) return;
     setLoading(true);
-    axios.get(`/api/ai/recommendations/${productId}`)
+    api.get(`/api/ai/recommendations/${productId}`)
       .then(r => setRecommendations(r.data))
       .catch(console.error)
       .finally(() => setLoading(false));

@@ -11,7 +11,7 @@ export default function OrdersPage() {
 
   useEffect(() => {
     if (!user) return navigate('/login');
-    axios.get('/api/orders/mine')
+    api.get('/api/orders/mine')
       .then(r => setOrders(r.data))
       .catch(console.error)
       .finally(() => setLoading(false));

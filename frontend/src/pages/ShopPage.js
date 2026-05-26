@@ -34,7 +34,7 @@ export default function ShopPage() {
     if (rating)   params.set('rating', rating);
     params.set('limit', '12');
 
-    axios.get(`/api/products?${params}`)
+    api.get(`/api/products?${params}`)
       .then(r => {
         setProducts(r.data.products);
         setTotal(r.data.total);

@@ -9,7 +9,7 @@ export default function HomePage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    axios.get('/api/products/featured')
+    api.get('/api/products/featured')
       .then(r => setFeatured(r.data))
       .catch(console.error)
       .finally(() => setLoading(false));
