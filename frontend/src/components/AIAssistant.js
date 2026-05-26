@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import axios from 'axios';
+import api from '../utils/api';
 
 export default function AIAssistant({ productId = null }) {
   const [open, setOpen] = useState(false);

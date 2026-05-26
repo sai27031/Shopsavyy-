@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import axios from 'axios';
+import api from '../utils/api';
 import { useCart } from '../context/CartContext';
 import AIAssistant from '../components/AIAssistant';
 import { useRecentlyViewed } from '../context/RecentlyViewedContext';
