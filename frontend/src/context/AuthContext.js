@@ -27,15 +27,6 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem('shopsavyy_user');
     setUser(null);
   };
-
-  useEffect(() => {
-    if (user?.token) {
-      axios.defaults.headers.common['Authorization'] = `Bearer ${user.token}`;
-    } else {
-      delete axios.defaults.headers.common['Authorization'];
-    }
-  }, [user]);
-
   return (
     <AuthContext.Provider value={{ user, login, register, logout }}>
       {children}
