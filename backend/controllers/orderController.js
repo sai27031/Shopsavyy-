@@ -1,4 +1,6 @@
 const Order = require('../models/Order');
+const User = require('../models/User');
+const { sendOrderConfirmation, sendOrderStatusUpdate } = require('../utils/emailService');
 
 const createOrder = async (req, res) => {
   try {
@@ -23,6 +25,15 @@ const createOrder = async (req, res) => {
       shippingPrice,
       totalPrice,
     });
+
+    // Send order confirmation email
+    try {
+      const user = await User.findById(req.user._id);
+      await sendOrderConfirmation(order, user.email, user.name);
+    } catch (emailErr) {
+      console.error('Email failed:', emailErr);
+    }
+
     res.status(201).json(order);
   } catch (err) {
     res.status(500).json({ message: err.message });
@@ -78,9 +89,23 @@ const updateOrderStatus = async (req, res) => {
           : {}),
       },
       { new: true }
-    );
+    ).populate('user', 'name email');
+
     if (!order)
       return res.status(404).json({ message: 'Order not found' });
+
+    // Send status update email
+    try {
+      await sendOrderStatusUpdate(
+        order,
+        order.user.email,
+        order.user.name,
+        req.body.status
+      );
+    } catch (emailErr) {
+      console.error('Email failed:', emailErr);
+    }
+
     res.json(order);
   } catch (err) {
     res.status(500).json({ message: err.message });
