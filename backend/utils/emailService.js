@@ -14,7 +14,7 @@ const sendOrderConfirmation = async (order, userEmail, userName) => {
 
     await resend.emails.send({
       from: 'ShopSavyy <onboarding@resend.dev>',
-      to: userEmail,
+      to: 'saisujan2707@gmail.com',
       subject: `Order Confirmed #${order._id.toString().slice(-8).toUpperCase()} – ShopSavyy`,
       html: `
         <div style="font-family: 'Times New Roman', serif; background: #0a0a0b; color: #f0ede8; padding: 40px; max-width: 600px; margin: 0 auto;">
